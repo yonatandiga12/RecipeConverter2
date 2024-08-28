@@ -8,8 +8,11 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # works with https://www.seriouseats.com
 def findSiteName(url):
-    splitedUrl = url.split('.')
-    return splitedUrl[1]
+    try:
+        splitedUrl = url.split('.')
+        return splitedUrl[1]
+    except:
+        return ""
 
 
 def getIngredientsFromWebScraping(url):
@@ -32,7 +35,7 @@ def getFromFoodNetwork(url):
 
     driver.get(url)
     # Wait until the ingredients section is loaded
-    #WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "o-Ingredients__m-Body")))
+    # WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "o-Ingredients__m-Body")))
 
     # Get page source and parse with BeautifulSoup
     soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -62,7 +65,7 @@ def getFromSeriousEats(url):
     driver.get(url)
 
     # Wait until the specific div with ingredients is loaded
-    #WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "structured-ingredients_1-0")))
+    # WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "structured-ingredients_1-0")))
 
     # Get page source and parse with BeautifulSoup
     soup = BeautifulSoup(driver.page_source, 'html.parser')

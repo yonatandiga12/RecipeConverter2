@@ -39,12 +39,16 @@ def removeFurthestNumberIfDistanceIsBig(numberFound, unitIndex):
             numbersIndices.append(i)
 
     for i in range(len(numbersIndices) - 1):
-        if numbersIndices[i + 1] - numbersIndices[i] > 5:   #The 2 numbers are not related, they have a lot of distance
+        # The 2 numbers are not related, they have a lot of distance and letters between them
+        if any(c.isalpha() for c in numberFound[numbersIndices[i]:numbersIndices[i+1]]) \
+                or (numbersIndices[i + 1] - numbersIndices[i] > 5):
             if abs(numbersIndices[i + 1] - unitIndex) > abs(numbersIndices[i] - unitIndex):
                 indexToRemove = numbersIndices[i + 1]
+                return numberFound[:indexToRemove]
             else:
                 indexToRemove = numbersIndices[i]
-            numberFound = numberFound[:indexToRemove] + ' ' + numberFound[indexToRemove + 1:]
+                return numberFound[indexToRemove + 1:]
+            #numberFound = numberFound[:indexToRemove] + ' ' + numberFound[indexToRemove + 1:]
     return numberFound
 
 def convertStringToNumber(sentence, unit):  ##
@@ -59,6 +63,11 @@ def convertStringToNumber(sentence, unit):  ##
         return -1
 
     numberFound = numberFound.string
+
+    if "plus" in numberFound:
+        return -1
+    if "minus" in numberFound:
+        return -1
 
     numberFound = removeFurthestNumberIfDistanceIsBig(numberFound, unitIndex)
 
@@ -138,7 +147,7 @@ def getIngredientFromSentence(sentence):
 def getAmountOfIngredientInGrams(ingredient, amount, unit):
     # result should be like this : "50g flour"
     weightOfUnit = getWeightOfIngredientInUnit(ingredient, unit)
-    if amount <= 0 or weightOfUnit == -1:
+    if amount is None or amount <= 0 or weightOfUnit == -1:
         return ""
 
     totalWeight = str(round(amount * weightOfUnit, 3))
@@ -168,10 +177,6 @@ def convertUnitToGrams(sentence, unit):
 
 def convertToGrams(sentence: str):
     currLower = sentence.lower()
-    if "plus" in sentence:
-        return currLower
-    if "minus" in sentence:
-        return currLower
     if any(a in currLower for a in tbspList):
         return convertUnitToGrams(currLower, TBSP)
     elif any(a in currLower for a in tspList):

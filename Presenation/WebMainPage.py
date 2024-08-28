@@ -10,7 +10,7 @@ mask = np.ones((490, 500))
 
 app = Tk()
 app.title('Convert')
-app.geometry('500x700')
+app.geometry('1000x1000')
 title = Label(app, text='Recipe Converter', font=('Times', 24), fg='#068481')
 title.pack()
 
@@ -22,19 +22,28 @@ def processURL(url):
     printList(newIngredients)
 
 
+# def printList(listToPrint):
+#     root = Tk()
+#     root.geometry("1024x640")
+#     root.title("Ingredients")
+#
+#     txt_output = Text(root, height=1000, width=100)
+#     txt_output.config(font=('Helvatical bold', 20))
+#     txt_output.pack(pady=30)
+#
+#
+#     for item in listToPrint:
+#         txt_output.insert(END, item + "\n")
+#     root.mainloop()
+
+
 def printList(listToPrint):
-    root = Tk()
-    root.geometry("1024x640")
-    root.title("Ingredients")
+    # Clear any previous content in the Text widget
+    txt_output.delete(1.0, END)
 
-    txt_output = Text(root, height=1000, width=100)
-    txt_output.config(font=('Helvatical bold', 20))
-    txt_output.pack(pady=30)
-
-
+    # Insert each item from the list into the Text widget
     for item in listToPrint:
         txt_output.insert(END, item + "\n")
-    root.mainloop()
 
 
 def openAndPut():
@@ -49,8 +58,8 @@ def openAndPut():
 # image_area = Canvas(app, width=490, height=500, bg='#C8C8C8')
 # image_area.pack(pady=(10, 0))
 
-open_image = Button(app, width=20, text='OPEN IMAGE', font=('Helvatical bold', 20), command=openAndPut)
-open_image.pack(pady=(10, 5))
+# open_image = Button(app, width=20, text='Open Image', font=('Helvatical bold', 20), command=openAndPut)
+# open_image.pack(pady=(10, 5))
 
 
 # Input field for the URL
@@ -58,9 +67,13 @@ url_entry = Entry(app, width=50, font=('Helvetica', 16))
 url_entry.pack(pady=(10, 5))
 
 # Button to process the URL
-process_button = Button(app, width=20, text='PROCESS LINK', font=('Helvetica bold', 20),
+process_button = Button(app, width=20, text='Calculate weights', font=('Helvetica bold', 20),
                         command=lambda: processURL(url_entry.get()))
 process_button.pack(pady=(10, 5))
+
+txt_output = Text(app, font=('Helvetica bold', 16))
+txt_output.pack(pady=20)
+
 
 def startFuncFromWebScraping(url):
     result = list()
