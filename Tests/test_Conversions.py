@@ -29,6 +29,9 @@ class TestConversions(TestCase):
         result = convertStringToNumber("10 tablespoons (145 grams) unsalted butter", getNumOfUnit('tbsp'))
         self.assertEqual(result, 10)
 
+        result = convertStringToNumber("2 sticks butter (1 cup)", getNumOfUnit('cup'))
+        self.assertEqual(result, 1)
+
     def test_convertStringToNumber_ShouldFail(self):
 
         result = convertStringToNumber("1 large egg", getNumOfUnit('cup'))
