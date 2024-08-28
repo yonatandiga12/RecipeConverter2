@@ -30,6 +30,23 @@ def getUnitIndexInSentence(sentence, unit):
     return -1
 
 
+def removeFurthestNumberIfDistanceIsBig(numberFound, unitIndex):
+
+    #Check if numbers are at distance from each other, remove the number that is furthest from the unit index
+    numbersIndices = []
+    for i, c in enumerate(numberFound):
+        if c.isdigit():
+            numbersIndices.append(i)
+
+    for i in range(len(numbersIndices) - 1):
+        if numbersIndices[i + 1] - numbersIndices[i] > 5:   #The 2 numbers are not related, they have a lot of distance
+            if abs(numbersIndices[i + 1] - unitIndex) > abs(numbersIndices[i] - unitIndex):
+                indexToRemove = numbersIndices[i + 1]
+            else:
+                indexToRemove = numbersIndices[i]
+            numberFound = numberFound[:indexToRemove] + ' ' + numberFound[indexToRemove + 1:]
+    return numberFound
+
 def convertStringToNumber(sentence, unit):  ##
     p = '[-]?[0-9]+[,.]?[0-9]*([\\/][0-9]+[,.]?[0-9]*)*'
 
@@ -42,6 +59,9 @@ def convertStringToNumber(sentence, unit):  ##
         return -1
 
     numberFound = numberFound.string
+
+    numberFound = removeFurthestNumberIfDistanceIsBig(numberFound, unitIndex)
+
 
     removeChars = ['(', ')', 'and', '[', ']', '_', '=']    #remove interfering chars from number
     for char in removeChars:
@@ -148,6 +168,10 @@ def convertUnitToGrams(sentence, unit):
 
 def convertToGrams(sentence: str):
     currLower = sentence.lower()
+    if "plus" in sentence:
+        return currLower
+    if "minus" in sentence:
+        return currLower
     if any(a in currLower for a in tbspList):
         return convertUnitToGrams(currLower, TBSP)
     elif any(a in currLower for a in tspList):

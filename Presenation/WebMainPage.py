@@ -40,7 +40,7 @@ def printList(listToPrint):
 def openAndPut():
     path = filedialog.askopenfilename()
     if path:
-        original, newIngredients = startFuncForWeb(path)
+        original, newIngredients = startFuncFromImage(path)
         #printList(original)
         printList(newIngredients)
 
@@ -72,7 +72,7 @@ def startFuncFromWebScraping(url):
     return ingredients, result
 
 
-def startFuncForWeb(path):
+def startFuncFromImage(path):
     result = list()
     #img = cv2.imread(path)
     #ingredients = readPictureFromWeb(img)  #reading the photo
