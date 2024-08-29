@@ -44,9 +44,8 @@ def getFromFoodNetwork(url):
     ingredients_section = soup.find('section', class_='o-Ingredients')
 
     if not ingredients_section:
-        print("Could not find the ingredients section on this page.")
         driver.quit()
-        return []
+        return "Could not find the ingredients section on this page."
 
     # Extract the text from each list item within the section
     ingredients = []
@@ -60,8 +59,10 @@ def getFromFoodNetwork(url):
 
 
 def getFromSeriousEats(url):
-    # Set up Selenium
-    driver = webdriver.Chrome()
+    # Set up Selenium with headless mode
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Run in headless mode
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
 
     # Wait until the specific div with ingredients is loaded
@@ -74,9 +75,8 @@ def getFromSeriousEats(url):
     ingredients_div = soup.find('div', id='structured-ingredients_1-0')
 
     if not ingredients_div:
-        print("Could not find the ingredients section on this page.")
         driver.quit()
-        return []
+        return "Could not find the ingredients section on this page."
 
     # Extract the text from each list item within the div
     ingredients = []
