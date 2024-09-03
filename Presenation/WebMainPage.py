@@ -3,7 +3,6 @@ from tkinter.ttk import Notebook, Frame as TtkFrame, Style
 
 from tkinter import filedialog
 import numpy as np
-# import cv2
 import matplotlib.image as mpimg
 from Business.Conversions import convertToGrams
 from Business.convertToText import readPictureFromWeb
@@ -62,8 +61,8 @@ def add_text_frames(parent):
     Returns the references to txt_original and txt_converted for external access.
     """
     # Frame to hold both text windows side by side
-    text_frame = Frame(parent)
-    text_frame.pack(pady=20)
+    text_frame = Frame(parent, width=900)
+    text_frame.pack(pady=20, expand=True, fill='both')  # Expands and fills the available space
 
     # Title above the original ingredients
     original_title = Label(text_frame, text='Original Ingredients', font=('Helvetica bold', 16))
@@ -125,11 +124,11 @@ def printList(originalList, convertedList, txt_original, txt_converted):
 
     # Insert original ingredients into the first Text widget
     for item in originalList:
-        txt_original.insert(END, item + "\n")
+        txt_original.insert(END, "• " + item + "\n")
 
     # Insert converted ingredients into the second Text widget
     for item in convertedList:
-        txt_converted.insert(END, item + "\n")
+        txt_converted.insert(END, "• " + item + "\n")
 
 
 def openPictureAndConvert():
