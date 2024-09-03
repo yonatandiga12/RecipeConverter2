@@ -27,15 +27,22 @@ Now I can do it automaticlly!!
 
 #### Now you can choose 2 options: 
 #### Open an image or Give a link to a website containing the recipe.
-* Select an image from your local files:
+
+Select an image from your local files:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/select_image.jpg" width="350" title="Select image">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/select_image.jpg" width="500" title="Select image">
+</p>
+
+Paste a URL link:
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/urlLink.jpg" width="500" title="Select image">
 </p>
 
 
 - And finally the converted and original ingredients 😄 : 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/converted.jpg" width="350" title="Converted">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/converted.jpg" width="750" title="Converted">
 </p>
