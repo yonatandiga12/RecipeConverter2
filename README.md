@@ -30,7 +30,7 @@ Now I can do it automaticlly!!
 * Select an image from your local files:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/select_image.jpg" width="350" title="Select image">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/select_image.jpg" width="500" title="Select image">
 </p>
 
 
