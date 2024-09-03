@@ -22,7 +22,7 @@ Now I can do it automaticlly!!
 - Hompage should pop up: 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConvertor/main/pictures/picturesForREADME/homepage.jpg" width="350" title="Homepage">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConvertor2/main/pictures/picturesForREADME/mainPage.jpg" width="350" title="Homepage">
 </p>
 
 - Select an image from your local files:
