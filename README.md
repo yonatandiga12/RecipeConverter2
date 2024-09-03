@@ -34,7 +34,7 @@ Select an image from your local files:
   <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/select_image.jpg" width="500" title="Select image">
 </p>
 
-Paste a URL link:
+Or paste a URL link:
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/urlLink.jpg" width="500" title="Select image">
