@@ -37,5 +37,5 @@ Now I can do it automaticlly!!
 - And finally the converted and original ingredients 😄 : 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/converted.jpg" width="350" title="Converted">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/converted.jpg" width="700" title="Converted">
 </p>
