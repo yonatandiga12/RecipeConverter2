@@ -54,6 +54,29 @@ process_button = Button(url_tab, width=20, text='Convert', font=('Helvetica bold
                         command=lambda: processURL(url_entry.get()))
 process_button.pack(pady=(10, 5))
 
+# # Label indicating supported sites
+# supported_sites_label = Label(
+#     app,
+#     text="Supported Sites: Serious Eats, Food Network, Preppy Kitchen, Love and Lemons",
+#     font=('Helvetica', 14),
+#     fg='black',
+#     wraplength=900,  # Ensures the text wraps to fit within the window
+#     justify='center'
+# )
+# supported_sites_label.pack(side=BOTTOM, pady=(0, 10))  # Position it above the error/success message
+#
+# # Common message label for both tabs at the bottom
+# msg_label = Label(app, text="", font=('Helvetica bold', 20))
+# msg_label.pack(pady=(10, 20), side=BOTTOM)
+
+# Add a label for Supported Sites at the bottom
+supported_sites_label = Label(
+    app,
+    text="Supported Sites: Serious Eats, Food Network, Preppy Kitchen, Love and Lemons",
+    font=('Helvetica', 12),
+    fg='gray'
+)
+supported_sites_label.pack(side=BOTTOM, pady=5)  # Minimal vertical padding
 
 def add_text_frames(parent):
     """
