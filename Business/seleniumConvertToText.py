@@ -6,6 +6,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
+SUPPORTED_SITES=["seriouseats", "foodnetwork", "loveandlemons", "preppykitchen"]
+
+
 # works with https://www.seriouseats.com
 def findSiteName(url):
     try:
@@ -21,18 +24,28 @@ def findSiteName(url):
 
 def getIngredientsFromWebScraping(url):
     siteName = findSiteName(url)
-
-    match siteName:
-        case "seriouseats":
-            return getFromSeriousEats(url)
-        case "foodnetwork":
-            return getFromFoodNetwork(url)
-        case "loveandlemons":
-            return getFromLoveAndLemons(url)
-        case "preppykitchen":
-            return getFromPreppyKitchen(url)
-        case _:
-            return None
+    if siteName == "seriouseats":
+        return getFromSeriousEats(url)
+    elif siteName == "foodnetwork":
+        return getFromFoodNetwork(url)
+    elif siteName == "loveandlemons":
+        return getFromLoveAndLemons(url)
+    elif siteName == "preppykitchen":
+        return getFromPreppyKitchen(url)
+    else:
+        return None
+    #
+    # match siteName:
+    #     case "seriouseats":
+    #         return getFromSeriousEats(url)
+    #     case "foodnetwork":
+    #         return getFromFoodNetwork(url)
+    #     case "loveandlemons":
+    #         return getFromLoveAndLemons(url)
+    #     case "preppykitchen":
+    #         return getFromPreppyKitchen(url)
+    #     case _:
+    #         return None
 
 
 def getFromFoodNetwork(url):
