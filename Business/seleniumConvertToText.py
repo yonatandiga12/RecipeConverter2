@@ -34,18 +34,6 @@ def getIngredientsFromWebScraping(url):
         return getFromPreppyKitchen(url)
     else:
         return None
-    #
-    # match siteName:
-    #     case "seriouseats":
-    #         return getFromSeriousEats(url)
-    #     case "foodnetwork":
-    #         return getFromFoodNetwork(url)
-    #     case "loveandlemons":
-    #         return getFromLoveAndLemons(url)
-    #     case "preppykitchen":
-    #         return getFromPreppyKitchen(url)
-    #     case _:
-    #         return None
 
 
 def getFromFoodNetwork(url):
@@ -73,6 +61,25 @@ def getFromFoodNetwork(url):
     for item in ingredients_section.find_all('p', class_='o-Ingredients__a-Ingredient'):
         ingredient_text = ' '.join(item.stripped_strings)
         ingredients.append(ingredient_text)
+
+
+    # Directions
+    # Locate the section containing the directions
+    method_section = soup.find('section', class_='o-Method')
+
+    # Extract the list items representing the steps
+    directions = []
+    if method_section:
+        steps = method_section.find_all('li', class_='o-Method__m-Step')
+        for step in steps:
+            directions.append(step.get_text(strip=True))
+
+    # Print the extracted directions
+    for i, direction in enumerate(directions, 1):
+        print(f"Step {i}: {direction}")
+
+
+
 
     driver.quit()
 
@@ -105,6 +112,32 @@ def getFromSeriousEats(url):
         # Join text with spaces where necessary
         ingredient_text = ' '.join(li.stripped_strings)
         ingredients.append(ingredient_text)
+
+
+    ## DIRECTIONS
+    # Locate the section containing the directions
+    instructions_section = soup.find('section', id='section--instructions_1-0')
+
+    # Extract the ordered list within the section
+    directions_list = instructions_section.find('ol', class_='comp mntl-sc-block mntl-sc-block-startgroup mntl-sc-block-group--OL')
+
+    # Extract each step in the list
+    directions = []
+    if directions_list:
+        steps = directions_list.find_all('li')
+        for step in steps:
+            instruction = step.get_text(strip=True)
+            junkIndex = instruction.find('Serious Eats / ')   #If there is a photo in the directions, it will be saved like this
+            if junkIndex != -1:
+                instruction_without_junk = instruction[:junkIndex]
+                directions.append(instruction_without_junk)
+            else:
+                directions.append(instruction)
+
+    # Print the extracted directions
+    for i, direction in enumerate(directions, 1):
+        print(f"Step {i}: {direction}\n")
+
 
     driver.quit()
 
