@@ -197,9 +197,14 @@ def openPictureAndConvert():
 
 def startFuncFromWebScraping(url):
     result = list()
-    ingredients = getIngredientsFromWebScraping(url)
-    if ingredients is None:
+    ingredientsAndDirections = getIngredientsFromWebScraping(url)
+    if ingredientsAndDirections is None:
         return None, None
+    if type(ingredientsAndDirections) is str:
+        sendError(ingredientsAndDirections)
+        return None, None
+    ingredients = ingredientsAndDirections["ingredients"]
+    instructions = ingredientsAndDirections["instructions"]
     if type(ingredients) is str:
         return None, ingredients
     for sentence in ingredients:
