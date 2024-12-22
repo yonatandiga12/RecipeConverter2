@@ -18,7 +18,7 @@ def search_dessert_google(dessert):
     service = Service()  # Automatically detects ChromeDriver
 
     results = []
-
+    driver = None
     for site in SUPPORTED_SITES:
         query = f"{dessert} site:{site}.com"
         print(f"Searching: {query}")
@@ -63,6 +63,7 @@ def search_dessert_google(dessert):
         except Exception as e:
             print("Error:", e)
         finally:
-            driver.quit()
+            if driver is not None:
+                driver.quit()
 
     return results

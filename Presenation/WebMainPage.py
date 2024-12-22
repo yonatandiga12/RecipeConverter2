@@ -38,8 +38,8 @@ search_tab = TtkFrame(notebook)  # New search tab
 
 # Add frames to the notebook as tabs
 notebook.add(url_tab, text='URL Converter')
-notebook.add(image_tab, text='Open Image')
 notebook.add(search_tab, text='Search')  # Add Search tab
+notebook.add(image_tab, text='Open Image')
 
 
 # ================= URL Converter Tab =================
