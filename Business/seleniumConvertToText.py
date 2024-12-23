@@ -1,13 +1,9 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
-
-SUPPORTED_SITES=["seriouseats", "foodnetwork", "loveandlemons", "preppykitchen",
-                 "kingarthurbaking", "sallysbakingaddiction"]
+SUPPORTED_SITES = ["seriouseats", "foodnetwork", "loveandlemons", "preppykitchen",
+                   "kingarthurbaking", "sallysbakingaddiction"]
 
 
 # works with https://www.seriouseats.com
@@ -69,7 +65,6 @@ def getFromFoodNetwork(url):
         ingredient_text = ' '.join(item.stripped_strings)
         ingredients.append(ingredient_text)
 
-
     # INSTRUCTIONS
     # Locate the section containing the directions
     method_section = soup.find('section', class_='o-Method')
@@ -84,9 +79,6 @@ def getFromFoodNetwork(url):
     # Print the extracted directions
     for i, direction in enumerate(directions, 1):
         print(f"Step {i}: {direction}")
-
-
-
 
     driver.quit()
 
@@ -123,13 +115,13 @@ def getFromSeriousEats(url):
         ingredient_text = ' '.join(li.stripped_strings)
         ingredients.append(ingredient_text)
 
-
     # INSTRUCTIONS
     # Locate the section containing the directions
     instructions_section = soup.find('section', id='section--instructions_1-0')
 
     # Extract the ordered list within the section
-    directions_list = instructions_section.find('ol', class_='comp mntl-sc-block mntl-sc-block-startgroup mntl-sc-block-group--OL')
+    directions_list = instructions_section.find('ol',
+                                        class_='comp mntl-sc-block mntl-sc-block-startgroup mntl-sc-block-group--OL')
 
     # Extract each step in the list
     directions = []
@@ -137,7 +129,8 @@ def getFromSeriousEats(url):
         steps = directions_list.find_all('li')
         for step in steps:
             instruction = step.get_text(strip=True)
-            junkIndex = instruction.find('Serious Eats / ')   #If there is a photo in the directions, it will be saved like this
+            junkIndex = instruction.find(
+                'Serious Eats / ')  # If there is a photo in the directions, it will be saved like this
             if junkIndex != -1:
                 instruction_without_junk = instruction[:junkIndex]
                 directions.append(instruction_without_junk)
@@ -147,7 +140,6 @@ def getFromSeriousEats(url):
     # Print the extracted directions
     for i, direction in enumerate(directions, 1):
         print(f"Step {i}: {direction}\n")
-
 
     driver.quit()
 
@@ -180,7 +172,6 @@ def getFromLoveAndLemons(url):
         for item in ingredients_section.find_all(['li', 'p']):
             ingredient_text = ' '.join(item.stripped_strings)
             ingredients.append(ingredient_text)
-
 
         # INSTRUCTIONS
 
@@ -234,7 +225,6 @@ def getFromPreppyKitchen(url):
         for item in ingredients_section.find_all('li', class_='wprm-recipe-ingredient'):
             ingredient_text = ' '.join(item.stripped_strings)
             ingredients.append(ingredient_text)
-
 
         # INSTRUCTIONS
 
@@ -326,7 +316,6 @@ def getFromKingArthurBaking(url):
     }
 
 
-
 def getFromSallysBakingAddiction(url):
     # Set up Selenium with headless mode
     chrome_options = Options()
@@ -392,13 +381,14 @@ def getFromSallysBakingAddiction(url):
     }
 
 
-
 def getFromGoodFood(url):
     # Set up Selenium with headless mode
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Run in headless mode
     driver = webdriver.Chrome(options=chrome_options)
 
+    all_ingredients = []
+    instructions = []
     try:
         driver.get(url)
 
@@ -440,8 +430,6 @@ def getFromGoodFood(url):
                     # Save the ingredients under the heading
                     all_ingredients += ingredients
                     all_ingredients += '\n'
-
-
 
         # INSTRUCTIONS
         # Locate the instructions container
