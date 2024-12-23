@@ -1,5 +1,6 @@
 from Business.Conversions import convertToGrams
 from Business.convertToText import readPicture
+from Presenation.app_ui import RecipeConverterUI
 
 
 def startFunc():
@@ -16,7 +17,9 @@ def startFunc():
 
 
 if __name__ == '__main__':
-    startFunc()
+    #startFunc()
+    app = RecipeConverterUI()
+    app.run()
 
 
 
