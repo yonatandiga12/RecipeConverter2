@@ -321,9 +321,14 @@ class RecipeDisplayWindow:
 
         # Update with new content
         for item in result.original_ingredients:
-            self.txt_original.insert(END, f"• {item}\n")
+            DOTORNOT = '' if item == '\n' else '•'
+            self.txt_original.insert(END, f"{DOTORNOT} {item}\n")
+
         for item in result.converted_ingredients:
-            self.txt_converted.insert(END, f"• {item}\n")
+            DOTORNOT = '' if item == '\n' else '•'
+            self.txt_converted.insert(END, f"{DOTORNOT} {item}\n")
+
         for item in result.instructions:
-            self.txt_instructions.insert(END, f"• {item}\n")
+            DOTORNOT = '' if item == '\n' else '•'
+            self.txt_instructions.insert(END, f"{DOTORNOT} {item}\n")
 

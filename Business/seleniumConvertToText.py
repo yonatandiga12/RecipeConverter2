@@ -363,6 +363,8 @@ def getFromSallysBakingAddiction(url):
                 if ingredient_text:  # Ensure it's not empty
                     ingredients.append(ingredient_text)
 
+            ingredients.append('\n')
+
         # INSTRUCTIONS
         # Locate the instructions container
         instructions_section = soup.find('div', class_='tasty-recipes-instructions-body')
@@ -391,8 +393,6 @@ def getFromSallysBakingAddiction(url):
 
 
 
-
-
 def getFromGoodFood(url):
     # Set up Selenium with headless mode
     chrome_options = Options()
@@ -405,24 +405,41 @@ def getFromGoodFood(url):
         # Get page source and parse with BeautifulSoup
         soup = BeautifulSoup(driver.page_source, 'html.parser')
 
+        # Locate the parent container of all ingredient sections
+        parent_container = soup.find('section', id='ingredients-list')
 
-        # Locate the ingredients section
-        ingredients_section = soup.find('ul', class_='ingredients-list list')
-
-        if not ingredients_section:
-            print("Could not find the ingredients section.")
+        if not parent_container:
+            print("Could not find the parent container for ingredients.")
         else:
+            # Locate all nested sections within the parent container
+            ingredient_sections = parent_container.find_all('section')
 
-            # Extract all <li> elements under the ingredients section
-            ingredient_items = ingredients_section.find_all('li')  # Removed 'class_' filter
+            if not ingredient_sections:
+                print("Could not find any ingredients sections.")
+            else:
+                all_ingredients = []
 
-            # Process each ingredient item
-            ingredients = []
-            for idx, item in enumerate(ingredient_items):
+                # Loop through each nested section
+                for section in ingredient_sections:
+                    # Get the heading text (e.g., "For the cake")
+                    heading = section.find('h3', class_='ingredients-list__heading')
+                    heading_text = heading.get_text(strip=True) if heading else "No heading"
+                    if heading_text is not "No heading":
+                        all_ingredients.append(heading_text)
 
-                # Get the ingredient text
-                ingredient_text = item.get_text(separator=' ', strip=True)
-                ingredients.append(ingredient_text)
+                    # Locate the <ul> inside the section
+                    ingredients_list = section.find('ul', class_='ingredients-list')
+
+                    # Extract all <li> elements under the ingredients list
+                    if ingredients_list:
+                        ingredient_items = ingredients_list.find_all('li')
+                        ingredients = [item.get_text(separator=' ', strip=True) for item in ingredient_items]
+                    else:
+                        ingredients = []
+
+                    # Save the ingredients under the heading
+                    all_ingredients += ingredients
+                    all_ingredients += '\n'
 
 
 
@@ -449,6 +466,6 @@ def getFromGoodFood(url):
 
     # Return the extracted ingredients and instructions
     return {
-        "ingredients": ingredients,
+        "ingredients": all_ingredients,
         "instructions": instructions
     }
