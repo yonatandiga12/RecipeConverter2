@@ -19,6 +19,7 @@ class ProcessingResult:
     converted_ingredients: List[str] = None
     instructions: List[str] = None
     formatted_results: str = ""
+    resultList: List[RecipeObject] = None
 
 
 class RecipeProcessor:
@@ -96,11 +97,12 @@ class RecipeProcessor:
             results.sort(key=lambda x: x.reviews_count, reverse=True)
 
             # Format results into a string
-            formatted_results = "\n".join([item.__str__() for item in results])
+            #formatted_results = "\n".join([item.__str__() for item in results])
 
             return ProcessingResult(
                 success=True,
-                formatted_results=formatted_results
+                #formatted_results=formatted_results
+                resultList=results
             )
         except Exception as e:
             return ProcessingResult(

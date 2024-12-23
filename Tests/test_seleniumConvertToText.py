@@ -54,3 +54,26 @@ class Test(TestCase):
         self.assertEqual('9 cups ( 270g ) crispy rice cereal', ingredients[4])
         self.assertTrue('Cover and store leftover treats at room temperature for up to 3 days' in instructions[6])
 
+#https://www.loveandlemons.com/brownies-recipe/
+
+    def test_getIngredientsFromWebScraping_LoveLemons(self):
+        result = getIngredientsFromWebScraping("https://www.loveandlemons.com/brownies-recipe/")
+        ingredients = result["ingredients"]
+        instructions = result["instructions"]
+
+        self.assertTrue(len(ingredients) == 10)
+        self.assertTrue(len(instructions) == 5)
+        self.assertEqual('1/2 cup dark chocolate chips', ingredients[4])
+        self.assertTrue('Preheat the oven to 325°F' in instructions[0])
+
+
+
+    def test_getIngredientsFromWebScraping_PreppyKitchen(self):
+        result = getIngredientsFromWebScraping("https://preppykitchen.com/brownie-recipe/")
+        ingredients = result["ingredients"]
+        instructions = result["instructions"]
+
+        self.assertTrue(len(ingredients) == 8)
+        self.assertTrue(len(instructions) == 4)
+        #self.assertEqual('1/2 cup dark chocolate chips', ingredients[4])
+        #self.assertTrue('Preheat the oven to 325°F' in instructions[0])

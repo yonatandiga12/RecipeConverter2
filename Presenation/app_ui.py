@@ -1,7 +1,10 @@
+import webbrowser
 from tkinter import *
 from tkinter.ttk import Notebook, Frame as TtkFrame, Style
 from tkinter import filedialog
+from typing import List
 
+from Business.RecipeObject import RecipeObject
 from Presenation.recipe_processor import RecipeProcessor
 
 FONT = 'Courier'
@@ -148,17 +151,38 @@ class RecipeConverterUI:
         # Results area
         self.setup_search_results()
 
+    # def setup_search_results(self):
+    #     screen_width = self.app.winfo_screenwidth()
+    #     screen_height = self.app.winfo_screenheight()
+    #
+    #     text_width = int(screen_width * 0.8 / 10)
+    #     text_height = int(screen_height * 0.6 / 20)
+    #
+    #     self.search_results_txt = Text(self.search_tab, height=text_height,
+    #                                    width=text_width, font=(FONT, 12),
+    #                                    bg="white")
+    #     self.search_results_txt.pack(pady=(10, 5), expand=True, fill='both')
+
     def setup_search_results(self):
-        screen_width = self.app.winfo_screenwidth()
-        screen_height = self.app.winfo_screenheight()
+        # Create a scrollable canvas
+        self.canvas_frame = Frame(self.search_tab, bg="#d3eaf7")
+        self.canvas_frame.pack(expand=True, fill='both', pady=(10, 5))
 
-        text_width = int(screen_width * 0.8 / 10)
-        text_height = int(screen_height * 0.6 / 20)
+        self.results_canvas = Canvas(self.canvas_frame, bg="#d3eaf7")
+        self.results_scrollbar = Scrollbar(self.canvas_frame, orient="vertical", command=self.results_canvas.yview)
+        self.results_canvas.configure(yscrollcommand=self.results_scrollbar.set)
 
-        self.search_results_txt = Text(self.search_tab, height=text_height,
-                                       width=text_width, font=(FONT, 12),
-                                       bg="white")
-        self.search_results_txt.pack(pady=(10, 5), expand=True, fill='both')
+        self.scrollable_frame = Frame(self.results_canvas, bg="#d3eaf7")
+
+        # Bind the canvas to the scrollable frame
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.results_canvas.configure(scrollregion=self.results_canvas.bbox("all"))
+        )
+
+        self.results_canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.results_canvas.pack(side=LEFT, expand=True, fill="both")
+        self.results_scrollbar.pack(side=RIGHT, fill="y")
 
     def create_status_bar(self):
         self.msg_label = Label(self.app, text="", font=(BOLD_FONT, 16),
@@ -221,6 +245,18 @@ class RecipeConverterUI:
             else:
                 self.send_error(result.error_message)
 
+    def process_url(self, url):
+        if url:
+            result = self.processor.process_url(url)
+            if result.success:
+                self.send_success("Recipe converted!")
+                # Create popup window with recipe details
+                RecipeDisplayWindow(self.app, result)
+            else:
+                self.send_error(result.error_message)
+
+
+
     def open_image(self):
         path = filedialog.askopenfilename()
         if path:
@@ -229,6 +265,64 @@ class RecipeConverterUI:
                 self.update_display(result)
             else:
                 self.send_error(result.error_message)
+
+    # def perform_search(self):
+    #     query = self.search_entry.get()
+    #     if not query.strip():
+    #         self.send_error("Please enter a dessert name!")
+    #         return
+    #
+    #     self.send_success("Searching for recipes...")
+    #     result = self.processor.search_recipes(query)
+    #     if result.success:
+    #         self.search_results_txt.delete(1.0, END)
+    #         self.search_results_txt.insert(END, result.formatted_results)
+    #         self.send_success("Search completed!")
+    #     else:
+    #         self.send_error(result.error_message)
+
+    import webbrowser  # Add this import at the top of your file
+
+    def populate_search_results(self, recipes: List[RecipeObject]):
+        # Clear previous results
+        for widget in self.scrollable_frame.winfo_children():
+            widget.destroy()
+
+        for i, recipe in enumerate(recipes):
+            siteName = recipe.getSiteName()
+            recipeName = recipe.getRecipeName()
+            rating = recipe.getRating()
+            reviewCount = recipe.getReviewsCount()
+            urlOfRecipe = recipe.getURL()
+
+            # Create a small "cube" for each recipe
+            recipe_frame = Frame(self.scrollable_frame, bg="white", borderwidth=1, relief="solid")
+            recipe_frame.grid(row=i // 4, column=i % 4, padx=10, pady=10, sticky="nsew")
+
+            # Recipe details
+            recipe_label = Label(recipe_frame, text=recipeName, font=(FONT, 14), bg="white", wraplength=150)
+            recipe_label.pack(pady=(10, 5), padx=10)
+
+            site_label = Label(recipe_frame, text=f"From: {siteName}", font=(FONT, 10), bg="white")
+            site_label.pack(pady=(0, 5))
+
+            rating_label = Label(recipe_frame, text=f"Rating: {rating} ({reviewCount} reviews)",
+                                 font=(FONT, 10), bg="white")
+            rating_label.pack(pady=(0, 10))
+
+            # Clickable button for site processing
+            view_button = Button(recipe_frame, text="Convert Recipe", font=(FONT, 10), bg="#6aa7cf", fg="white",
+                                 command=lambda url=urlOfRecipe: self.process_url(url))
+            view_button.pack(pady=(0, 5), padx=10)
+
+            # New button to open URL in the browser
+            open_url_button = Button(recipe_frame, text="Open URL", font=(FONT, 10), bg="#3cb371", fg="white",
+                                     command=lambda url=urlOfRecipe: webbrowser.open(url))
+            open_url_button.pack(pady=(0, 10), padx=10)
+
+        # Adjust column weights
+        for col in range(4):
+            self.scrollable_frame.grid_columnconfigure(col, weight=1)
 
     def perform_search(self):
         query = self.search_entry.get()
@@ -239,8 +333,7 @@ class RecipeConverterUI:
         self.send_success("Searching for recipes...")
         result = self.processor.search_recipes(query)
         if result.success:
-            self.search_results_txt.delete(1.0, END)
-            self.search_results_txt.insert(END, result.formatted_results)
+            self.populate_search_results(result.resultList)  # Use the formatted results to populate cubes
             self.send_success("Search completed!")
         else:
             self.send_error(result.error_message)

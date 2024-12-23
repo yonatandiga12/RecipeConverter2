@@ -176,7 +176,7 @@ def getFromLoveAndLemons(url):
         # INSTRUCTIONS
 
         # Search for instruction steps by matching IDs with the specific prefix
-        instruction_steps = soup.find_all('li', id=lambda x: x and x.startswith('wprm-recipe-42187-step'))
+        instruction_steps = soup.find_all('li', id=lambda x: x and x.startswith('wprm-recipe-'))
 
         # Extract the text content for each step
         directions = []
@@ -185,12 +185,13 @@ def getFromLoveAndLemons(url):
             if text_div:
                 directions.append(text_div.get_text(strip=True))
 
-        # Print the extracted directions
-        for i, direction in enumerate(directions, 1):
-            print(f"Step {i}: {direction}")
+        # # Print the extracted directions
+        # for i, direction in enumerate(directions, 1):
+        #     print(f"Step {i}: {direction}")
 
 
     except Exception as e:
+        print(e)
         return f"Error extracting ingredients: {str(e)}"
 
     finally:
@@ -224,7 +225,9 @@ def getFromPreppyKitchen(url):
         ingredients = []
         for item in ingredients_section.find_all('li', class_='wprm-recipe-ingredient'):
             ingredient_text = ' '.join(item.stripped_strings)
+            ingredient_text = ingredient_text.replace('▢', '')
             ingredients.append(ingredient_text)
+
 
         # INSTRUCTIONS
 
@@ -247,8 +250,8 @@ def getFromPreppyKitchen(url):
                     directions.append(text_div.get_text(strip=True))
 
         # Print the extracted directions
-        for i, direction in enumerate(directions, 1):
-            print(f"Step {i}: {direction}")
+        # for i, direction in enumerate(directions, 1):
+        #     print(f"Step {i}: {direction}")
 
 
     except Exception as e:

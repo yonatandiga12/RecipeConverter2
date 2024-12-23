@@ -39,6 +39,12 @@ class RecipeObject:
     def getInstructions(self):
         return self.instructions
 
+    def getRating(self):
+        return self.rating
+
+    def getReviewsCount(self):
+        return self.reviews_count
+
     def setInstructions(self, ins):
         self.instructions = ins
 
