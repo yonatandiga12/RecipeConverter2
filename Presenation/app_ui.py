@@ -64,25 +64,47 @@ class RecipeConverterUI:
     def setup_url_tab(self):
         # Title
         title = Label(self.url_tab, text='Recipe Converter',
-                      font=('Helvetica bold', 36), bg="#d3eaf7")
+                     font=('Helvetica bold', 36), bg="#d3eaf7")
         title.pack(pady=10)
 
+        # Center container
+        center_frame = Frame(self.url_tab, bg="#d3eaf7")
+        center_frame.pack(expand=True)
+
         # URL Entry
-        self.url_entry = Entry(self.url_tab, width=50, font=('Helvetica', 16))
+        self.url_entry = Entry(center_frame, width=50, font=('Helvetica', 16))
         self.url_entry.pack(pady=(10, 5))
 
         # Convert Button
-        convert_btn = Button(self.url_tab, width=20, text='Convert',
-                             font=('Helvetica bold', 16),
-                             command=self.process_url,
-                             bg="#6aa7cf", fg="white")
+        convert_btn = Button(center_frame, width=20, text='Convert',
+                           font=('Helvetica bold', 16),
+                           command=self.process_url,
+                           bg="#6aa7cf", fg="white")
         convert_btn.pack(pady=(10, 5))
 
-        # Text areas
-        self.txt_original_url, self.txt_converted_url = self.add_text_frames(self.url_tab)
-
-        # Instructions area
-        self.create_instructions_area()
+    #   #For displaying the conversion in the same window
+    # def setup_url_tab(self):
+    #     # Title
+    #     title = Label(self.url_tab, text='Recipe Converter',
+    #                   font=('Helvetica bold', 36), bg="#d3eaf7")
+    #     title.pack(pady=10)
+    #
+    #     # URL Entry
+    #     self.url_entry = Entry(self.url_tab, width=50, font=('Helvetica', 16))
+    #     self.url_entry.pack(pady=(10, 5))
+    #
+    #     # Convert Button
+    #     convert_btn = Button(self.url_tab, width=20, text='Convert',
+    #                          font=('Helvetica bold', 16),
+    #                          command=self.process_url,
+    #                          bg="#6aa7cf", fg="white")
+    #     convert_btn.pack(pady=(10, 5))
+    #
+    #     # Text areas
+    #     self.txt_original_url, self.txt_converted_url = self.add_text_frames(self.url_tab)
+    #
+    #     # Instructions area
+    #     self.create_instructions_area()
 
     def create_instructions_area(self):
         self.instructions_frame = LabelFrame(self.url_tab, text="Recipe Instructions",
@@ -176,13 +198,25 @@ class RecipeConverterUI:
     def send_success(self, msg):
         self.msg_label.config(text=msg, fg='green')
 
+    #   # For displaying the conversion in the same window
+    # def process_url(self):
+    #     url = self.url_entry.get()
+    #     if url:
+    #         result = self.processor.process_url(url)
+    #         if result.success:
+    #             self.send_success("Recipe converted!")
+    #             self.update_display(result)
+    #         else:
+    #             self.send_error(result.error_message)
+
     def process_url(self):
         url = self.url_entry.get()
         if url:
             result = self.processor.process_url(url)
             if result.success:
                 self.send_success("Recipe converted!")
-                self.update_display(result)
+                # Create popup window with recipe details
+                RecipeDisplayWindow(self.app, result)
             else:
                 self.send_error(result.error_message)
 
@@ -226,3 +260,68 @@ class RecipeConverterUI:
 
     def run(self):
         self.app.mainloop()
+
+
+
+
+
+class RecipeDisplayWindow:
+    def __init__(self, parent, recipe_result):
+        self.window = Toplevel(parent)
+        self.window.title('Recipe Details')
+        self.window.state('zoomed')
+        self.window.configure(bg="#d3eaf7")
+
+        self.create_recipe_display()
+        self.update_display(recipe_result)
+
+    def create_recipe_display(self):
+        # Create main container
+        container = Frame(self.window, bg="#d3eaf7")
+        container.pack(pady=20, expand=True, fill='both')
+
+        # Top frame for ingredients
+        ingredients_frame = Frame(container, bg="#d3eaf7")
+        ingredients_frame.pack(fill='both', expand=True, padx=20)
+
+        # Original ingredients
+        original_frame = LabelFrame(ingredients_frame, text='Original Ingredients',
+                                    font=('Helvetica bold', 16), bg="#d3eaf7")
+        original_frame.pack(side=LEFT, fill='both', expand=True, padx=10)
+
+        self.txt_original = Text(original_frame, height=20, width=50,
+                                 font=('Helvetica', 14), bg="#d3eaf7")
+        self.txt_original.pack(padx=10, pady=10, fill='both', expand=True)
+
+        # Converted ingredients
+        converted_frame = LabelFrame(ingredients_frame, text='Converted Ingredients',
+                                     font=('Helvetica bold', 16), bg="#d3eaf7")
+        converted_frame.pack(side=LEFT, fill='both', expand=True, padx=10)
+
+        self.txt_converted = Text(converted_frame, height=20, width=50,
+                                  font=('Helvetica', 14), bg="#d3eaf7")
+        self.txt_converted.pack(padx=10, pady=10, fill='both', expand=True)
+
+        # Instructions frame at bottom
+        instructions_frame = LabelFrame(container, text="Recipe Instructions",
+                                        font=('Helvetica bold', 16), bg="#d3eaf7")
+        instructions_frame.pack(fill='both', expand=True, padx=20, pady=(20, 10))
+
+        self.txt_instructions = Text(instructions_frame, height=8,
+                                     font=('Helvetica', 12), bg="#d3eaf7", wrap=WORD)
+        self.txt_instructions.pack(padx=10, pady=10, fill='both', expand=True)
+
+    def update_display(self, result):
+        # Clear previous content
+        self.txt_original.delete(1.0, END)
+        self.txt_converted.delete(1.0, END)
+        self.txt_instructions.delete(1.0, END)
+
+        # Update with new content
+        for item in result.original_ingredients:
+            self.txt_original.insert(END, f"• {item}\n")
+        for item in result.converted_ingredients:
+            self.txt_converted.insert(END, f"• {item}\n")
+        for item in result.instructions:
+            self.txt_instructions.insert(END, f"• {item}\n")
+

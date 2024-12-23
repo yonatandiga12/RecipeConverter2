@@ -35,7 +35,7 @@ class RecipeProcessor:
                 error_message="No URL provided"
             )
 
-        original, new_ingredients = self._start_func_from_web_scraping(url)
+        original, new_ingredients, instructions = self._start_func_from_web_scraping(url)
 
         if original is None:
             if new_ingredients is None:
@@ -52,7 +52,7 @@ class RecipeProcessor:
         recipe_obj = RecipeObject("", "", url)
         recipe_obj.setConvertedIngredients(new_ingredients)
         recipe_obj.setOriginalIngredients(original)
-        recipe_obj.setInstructions([])  # You can add actual instructions here if available
+        recipe_obj.setInstructions(instructions)
 
         return ProcessingResult(
             success=True,
@@ -131,7 +131,7 @@ class RecipeProcessor:
             curr = convertToGrams(sentence)
             result.append(curr)
 
-        return ingredients, result
+        return ingredients, result, instructions
 
     def _start_func_from_image(self, path: str):
         """
