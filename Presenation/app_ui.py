@@ -1,10 +1,13 @@
+import threading
+import time
 import webbrowser
 from tkinter import *
 from tkinter.ttk import Notebook, Frame as TtkFrame, Style
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 from typing import List
 
 from Business.RecipeObject import RecipeObject
+from Business.seleniumConvertToText import SUPPORTED_SITES
 from Presenation.recipe_processor import RecipeProcessor
 
 FONT = 'Courier'
@@ -144,7 +147,7 @@ class RecipeConverterUI:
         # Search button
         search_btn = Button(search_frame, text='Search',
                             font=(BOLD_FONT, 14),
-                            command=self.perform_search,
+                            command=self.search_with_loading,
                             bg="#6aa7cf", fg="white")
         search_btn.grid(row=0, column=1, padx=(5, 10))
 
@@ -297,7 +300,7 @@ class RecipeConverterUI:
 
             # Create a small "cube" for each recipe
             recipe_frame = Frame(self.scrollable_frame, bg="white", borderwidth=1, relief="solid")
-            recipe_frame.grid(row=i // 4, column=i % 4, padx=10, pady=10, sticky="nsew")
+            recipe_frame.grid(row=i // 6, column=i % 6, padx=10, pady=10, sticky="nsew")
 
             # Recipe details
             recipe_label = Label(recipe_frame, text=recipeName, font=(FONT, 14), bg="white", wraplength=150)
@@ -312,7 +315,7 @@ class RecipeConverterUI:
 
             # Clickable button for site processing
             view_button = Button(recipe_frame, text="Convert Recipe", font=(FONT, 10), bg="#6aa7cf", fg="white",
-                                 command=lambda url=urlOfRecipe: self.process_url(url))
+                                 command=lambda url=urlOfRecipe: self.process_with_loading(url))
             view_button.pack(pady=(0, 5), padx=10)
 
             # New button to open URL in the browser
@@ -321,22 +324,120 @@ class RecipeConverterUI:
             open_url_button.pack(pady=(0, 10), padx=10)
 
         # Adjust column weights
-        for col in range(4):
+        for col in range(6):
             self.scrollable_frame.grid_columnconfigure(col, weight=1)
 
-    def perform_search(self):
+    def process_with_loading(self, url):
+        """
+        Displays a loading popup and processes the recipe URL.
+        """
+        # Create a popup window for the progress bar
+        progress_popup = Toplevel(self.app)
+        progress_popup.title("Processing Recipe")
+        progress_popup.geometry("300x100")
+        progress_popup.configure(bg="#d3eaf7")
+        progress_popup.transient(self.app)
+        progress_popup.grab_set()
+
+        # Center the popup
+        progress_popup.update_idletasks()
+        x = (progress_popup.winfo_screenwidth() // 2) - (300 // 2)
+        y = (progress_popup.winfo_screenheight() // 2) - (100 // 2)
+        progress_popup.geometry(f"+{x}+{y}")
+
+        # Add a label and progress bar
+        label = Label(progress_popup, text=f"Processing Recipe...", font=("Helvetica", 14), bg="#d3eaf7")
+        label.pack(pady=(20, 10))
+        progress_bar = ttk.Progressbar(progress_popup, mode="indeterminate", length=250)
+        progress_bar.pack(pady=(0, 20))
+        progress_bar.start()
+
+        # Function to process the URL in a separate thread
+        def process_task():
+            try:
+                result = self.processor.process_url(url)
+                self.app.after(0, lambda: self.handle_processing_result(result))
+            except Exception as e:
+                self.app.after(0, lambda: self.send_error(f"An error occurred: {str(e)}"))
+            finally:
+                self.app.after(0, progress_popup.destroy)
+
+        # Start processing in a new thread
+        process_thread = threading.Thread(target=process_task)
+        process_thread.start()
+
+    def handle_processing_result(self, result):
+        if result.success:
+            self.send_success("Recipe processed successfully!")
+            RecipeDisplayWindow(self.app, result)
+        else:
+            self.send_error(result.error_message)
+
+    def search_with_loading(self):
+        """
+        Displays a loading popup with a progress bar while performing the search.
+        """
         query = self.search_entry.get()
         if not query.strip():
             self.send_error("Please enter a dessert name!")
             return
+        # Create a popup window for the progress bar
+        progress_popup = Toplevel(self.app)
+        progress_popup.title("Searching Recipes")
+        progress_popup.geometry("300x150")  # Increased height for text and progress bar
+        progress_popup.configure(bg="#d3eaf7")
+        progress_popup.transient(self.app)
+        progress_popup.grab_set()
 
-        self.send_success("Searching for recipes...")
-        result = self.processor.search_recipes(query)
+        # Center the popup
+        progress_popup.update_idletasks()
+        x = (progress_popup.winfo_screenwidth() // 2) - (300 // 2)
+        y = (progress_popup.winfo_screenheight() // 2) - (150 // 2)
+        progress_popup.geometry(f"+{x}+{y}")
+
+        # Add a label and progress bar
+        label = Label(progress_popup, text="Searching for Recipes...", font=("Helvetica", 14), bg="#d3eaf7")
+        label.pack(pady=(10, 10))
+        progress_bar = ttk.Progressbar(progress_popup, mode="indeterminate", length=250)
+        progress_bar.pack(pady=(0, 10))
+        progress_bar.start()
+
+        # Add dynamic text below the progress bar
+        dynamic_label = Label(progress_popup, text="", font=("Helvetica", 12), bg="#d3eaf7")
+        dynamic_label.pack(pady=(5, 10))
+
+        # Function to update dynamic text
+        def update_dynamic_text():
+            steps = SUPPORTED_SITES
+            for step in steps:
+                dynamic_label.config(text=f"Searching in {step}")
+                progress_popup.update_idletasks()
+                #When doing sleep it freezes the progressbar but shows all the sites
+                #time.sleep(9)  # Simulate a delay for each step
+
+        # Function to perform the search in a separate thread
+        def search_task():
+            try:
+                self.app.after(0, update_dynamic_text)  # Update dynamic text in the main thread
+                result = self.processor.search_recipes(query)
+                self.app.after(0, lambda: self.handle_search_result(result))
+            except Exception as e:
+                self.app.after(0, lambda: self.send_error(f"An error occurred: {str(e)}"))
+            finally:
+                self.app.after(0, progress_popup.destroy)
+
+        # Start search in a new thread
+        search_thread = threading.Thread(target=search_task)
+        search_thread.start()
+
+    def handle_search_result(self, result):
         if result.success:
-            self.populate_search_results(result.resultList)  # Use the formatted results to populate cubes
-            self.send_success("Search completed!")
+            self.populate_search_results(result.resultList)
+            self.send_success("Search completed successfully!")
         else:
             self.send_error(result.error_message)
+
+
 
     # def update_display(self, result):
     #     # Clear previous content
