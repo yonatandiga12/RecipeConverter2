@@ -85,7 +85,7 @@ class RecipeConverterUI:
         # Convert Button
         convert_btn = Button(center_frame, width=20, text='Convert',
                            font=(BOLD_FONT, 25),
-                           command=self.process_url, fg="black")
+                           command=self.process_url2, fg="black")
         convert_btn.pack(pady=(10, 5))
 
     #   #For displaying the conversion in the same window
@@ -237,27 +237,17 @@ class RecipeConverterUI:
     #         else:
     #             self.send_error(result.error_message)
 
-    def process_url(self):
+    def process_url2(self):
         url = self.url_entry.get()
         if url:
-            result = self.processor.process_url(url)
-            if result.success:
-                self.send_success("Recipe converted!")
-                # Create popup window with recipe details
-                RecipeDisplayWindow(self.app, result)
-            else:
-                self.send_error(result.error_message)
-
-    def process_url(self, url):
-        if url:
-            result = self.processor.process_url(url)
-            if result.success:
-                self.send_success("Recipe converted!")
-                # Create popup window with recipe details
-                RecipeDisplayWindow(self.app, result)
-            else:
-                self.send_error(result.error_message)
-
+            self.process_with_loading(url)  #Using the function with the loading bar, if don't want it, uncomment bottom
+            # result = self.processor.process_url(url)
+            # if result.success:
+            #     self.send_success("Recipe converted!")
+            #     # Create popup window with recipe details
+            #     RecipeDisplayWindow(self.app, result)
+            # else:
+            #     self.send_error(result.error_message)
 
 
     def open_image(self):
@@ -300,7 +290,7 @@ class RecipeConverterUI:
 
             # Create a small "cube" for each recipe
             recipe_frame = Frame(self.scrollable_frame, bg="white", borderwidth=1, relief="solid")
-            recipe_frame.grid(row=i // 6, column=i % 6, padx=10, pady=10, sticky="nsew")
+            recipe_frame.grid(row=i // 7, column=i % 7, padx=10, pady=10, sticky="nsew")
 
             # Recipe details
             recipe_label = Label(recipe_frame, text=recipeName, font=(FONT, 14), bg="white", wraplength=150)
@@ -324,7 +314,7 @@ class RecipeConverterUI:
             open_url_button.pack(pady=(0, 10), padx=10)
 
         # Adjust column weights
-        for col in range(6):
+        for col in range(7):
             self.scrollable_frame.grid_columnconfigure(col, weight=1)
 
     def process_with_loading(self, url):
@@ -524,5 +514,5 @@ class RecipeDisplayWindow:
 
         for item in result.instructions:
             DOTORNOT = '' if item == '\n' else '•'
-            self.txt_instructions.insert(END, f"{DOTORNOT} {item}\n")
+            self.txt_instructions.insert(END, f"{DOTORNOT} {item}\n\n")
 

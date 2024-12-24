@@ -279,17 +279,24 @@ def getFromKingArthurBaking(url):
         soup = BeautifulSoup(driver.page_source, 'html.parser')
 
         # INGREDIENTS
-        # Find the ingredients section using its unique identifiers
-        ingredients_section = soup.find('div', class_='ingredient-section')
-
-        if not ingredients_section:
-            return "Could not find the ingredients section on this page."
-
-        # Extract the text from each list item within the section
         ingredients = []
-        for item in ingredients_section.find_all('li'):
-            ingredient_text = ' '.join(item.stripped_strings)
-            ingredients.append(ingredient_text)
+        # Find the ingredients section using its unique identifiers
+        sections = soup.find_all('div', class_='ingredient-section')
+        #ingredients_section = soup.find('div', class_='ingredient-section')
+        for ingredients_section in sections:
+            headerText = ingredients_section.contents[1].text
+            if '\n' not in headerText:
+                ingredients.append(headerText)
+            if not ingredients_section:
+                return "Could not find the ingredients section on this page."
+
+            # Extract the text from each list item within the section
+
+            for item in ingredients_section.find_all('li'):
+                ingredient_text = ' '.join(item.stripped_strings)
+                ingredients.append(ingredient_text)
+
+            ingredients.append('\n')
 
         # INSTRUCTIONS
         # Locate the instructions container

@@ -77,3 +77,25 @@ class Test(TestCase):
         self.assertTrue(len(instructions) == 4)
         #self.assertEqual('1/2 cup dark chocolate chips', ingredients[4])
         #self.assertTrue('Preheat the oven to 325°F' in instructions[0])
+
+
+    def test_getIngredientsFromWebScraping_KingArthur(self):
+        result = getIngredientsFromWebScraping("https://www.kingarthurbaking.com/recipes/chocolate-mousse-cake-with-raspberries-recipe")
+        ingredients = result["ingredients"]
+        instructions = result["instructions"]
+
+        self.assertTrue(len(ingredients) == 34)
+        self.assertTrue(len(instructions) == 20)
+
+        self.assertTrue("Cake" in ingredients)
+
+
+    def test_getIngredientsFromWebScraping_KingArthur2(self):
+        result = getIngredientsFromWebScraping("https://www.kingarthurbaking.com/recipes/fudge-brownies-recipe")
+        ingredients = result["ingredients"]
+        instructions = result["instructions"]
+
+        self.assertTrue(len(ingredients) == 11)
+        self.assertTrue(len(instructions) == 9)
+        self.assertTrue('2 cups (340g) chocolate chips' in ingredients)
+

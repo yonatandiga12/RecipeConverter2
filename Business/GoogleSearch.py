@@ -16,7 +16,7 @@ def search_dessert_google(dessert):
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Uncomment for headless mode
     service = Service()  # Automatically detects ChromeDriver
-
+    RECIPES_COUNTER = 5
     results = []
     driver = None
     for site in SUPPORTED_SITES:
@@ -32,7 +32,9 @@ def search_dessert_google(dessert):
             soup = BeautifulSoup(driver.page_source, 'html.parser')
 
             # Locate the recipe blocks (MjjYud divs)
-            for recipe_block in soup.find_all('div', class_='MjjYud'):
+            blocks = soup.find_all('div', class_='MjjYud')
+            for i in range(RECIPES_COUNTER):
+                recipe_block = blocks[i]
                 # Extract title
                 h3_tag = recipe_block.find('h3')
                 title = h3_tag.get_text() if h3_tag else None
