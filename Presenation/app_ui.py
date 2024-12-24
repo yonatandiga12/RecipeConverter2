@@ -247,7 +247,7 @@ class RecipeConverterUI:
             #     # Create popup window with recipe details
             #     RecipeDisplayWindow(self.app, result)
             # else:
-            #     self.send_error(result.error_message)
+            #     self.send_error(result.error_message)#
 
 
     def open_image(self):
