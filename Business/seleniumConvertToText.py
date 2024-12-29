@@ -1,9 +1,11 @@
+import re
+
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
 
 SUPPORTED_SITES = ["seriouseats", "foodnetwork", "loveandlemons", "preppykitchen",
-                   "kingarthurbaking", "sallysbakingaddiction"]
+                   "kingarthurbaking", "sallysbakingaddiction", "cooking.nytimes"]
 
 
 # works with https://www.seriouseats.com
@@ -35,6 +37,8 @@ def getIngredientsFromWebScraping(url):
         return getFromSallysBakingAddiction(url)
     elif siteName == "bbcgoodfood":
         return getFromGoodFood(url)
+    elif siteName == "cooking":
+        return getFromNYT(url)
     else:
         return None
 
@@ -389,6 +393,64 @@ def getFromSallysBakingAddiction(url):
         "ingredients": ingredients,
         "instructions": instructions
     }
+
+
+def getFromNYT(url):
+    # Set up ChromeDriver options
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Run browser in headless mode
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+
+    driver = webdriver.Chrome(options=chrome_options)
+
+    try:
+        # Load the webpage
+        driver.get(url)
+
+        # Short delay to let the content load
+        #time.sleep(1)  # Adjust this as needed based on the website's loading speed
+
+        # Extract the HTML source
+        page_source = driver.page_source
+
+        # Parse the HTML with BeautifulSoup
+        soup = BeautifulSoup(page_source, 'html.parser')
+
+        # Extract ingredients
+        ingredients_block = soup.find('div', class_='ingredients_ingredients__FLjsC')
+        ingredients = []
+        if ingredients_block:
+            for element in ingredients_block.find_all(['h3', 'li']):
+                if element.name == 'h3':  # If it's an h3, add as a section header
+                    if len(ingredients) != 0:
+                        ingredients.append("\n")
+                    ingredients.append(element.get_text(strip=True))
+                elif element.name == 'li':  # If it's a list item, add the ingredient
+                    ingredients.append(element.get_text(separator=" "))
+
+            #for ingredient_item in ingredients_block.find_all('li'):
+            #    ingredients.append(ingredient_item.get_text(separator=" "))
+
+        # Extract instructions
+        instructions_block = soup.find('ol', class_='preparation_stepList___jqWa')
+        instructions = []
+        if instructions_block:
+            for step in instructions_block.find_all('p', class_='pantry--body-long'):
+                instructions.append(step.get_text(strip=True))
+
+        return {
+            'ingredients': ingredients,
+            'instructions': instructions
+        }
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+    finally:
+        driver.quit()
+
+
 
 
 def getFromGoodFood(url):
