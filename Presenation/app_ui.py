@@ -57,16 +57,241 @@ class RecipeConverterUI:
         self.url_tab = TtkFrame(self.notebook)
         self.image_tab = TtkFrame(self.notebook)
         self.search_tab = TtkFrame(self.notebook)
+        self.conversion_tab = TtkFrame(self.notebook)
 
         # Add frames to notebook
         self.notebook.add(self.url_tab, text='URL Converter')
         self.notebook.add(self.search_tab, text='Search')
         self.notebook.add(self.image_tab, text='Open Image')
+        self.notebook.add(self.conversion_tab, text="Convert \nIngredient")
 
         # Setup each tab's content
         self.setup_url_tab()
         self.setup_image_tab()
         self.setup_search_tab()
+        self.setup_conversion_tab()
+
+    #For 1 box
+    # def setup_conversion_tab(self):
+    #     # Title
+    #     title = Label(self.conversion_tab, text='Convert Ingredient to Grams',
+    #                   font=(BOLD_FONT, 36), bg="sky blue")
+    #     title.pack(pady=20)
+    #
+    #     # Center container
+    #     center_frame = Frame(self.conversion_tab, bg="sky blue")
+    #     center_frame.pack(expand=True)
+    #
+    #     # Ingredient Dropdown
+    #     ingredient_label = Label(center_frame, text="Select Ingredient:",
+    #                              font=(FONT, 18), bg="sky blue")
+    #     ingredient_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+    #
+    #     self.ingredient_var = StringVar()
+    #     ingredient_dropdown = ttk.Combobox(center_frame, textvariable=self.ingredient_var,
+    #                                        values=self.processor.getAllIngredients(), font=(FONT, 16))
+    #     ingredient_dropdown.grid(row=0, column=1, padx=10, pady=10)
+    #
+    #     # Quantity Entry
+    #     quantity_label = Label(center_frame, text="Enter Quantity:",
+    #                            font=(FONT, 18), bg="sky blue")
+    #     quantity_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+    #
+    #     self.quantity_var = StringVar()
+    #     quantity_entry = Entry(center_frame, textvariable=self.quantity_var,
+    #                            font=(FONT, 16), width=10)
+    #     quantity_entry.grid(row=1, column=1, padx=10, pady=10)
+    #
+    #
+    #     # Unit Dropdown
+    #     unit_label = Label(center_frame, text="Select Unit:",
+    #                        font=(FONT, 18), bg="sky blue")
+    #     unit_label.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+    #
+    #     self.unit_var = StringVar()
+    #     unit_dropdown = ttk.Combobox(center_frame, textvariable=self.unit_var,
+    #                                  values=["cups", "tablespoon", "teaspoon", "ounces"], font=(FONT, 16))
+    #     unit_dropdown.grid(row=2, column=1, padx=10, pady=10)
+    #
+    #
+    #     # Convert Button
+    #     convert_btn = Button(center_frame, width=15, text='Convert',
+    #                          font=(BOLD_FONT, 18),
+    #                          command=self.display_conversion, bg="#6aa7cf", fg="white")
+    #     convert_btn.grid(row=3, column=0, columnspan=2, pady=20)
+    #
+    #     # Result Display
+    #     self.conversion_result = Label(center_frame, text="",
+    #                                    font=(FONT, 18), bg="sky blue", fg="black")
+    #     self.conversion_result.grid(row=4, column=0, columnspan=2, pady=10)
+    #
+    # def display_conversion(self):
+    #     ingredient = self.ingredient_var.get()
+    #     unit = self.unit_var.get()
+    #     quantity = self.quantity_var.get()
+    #     if ingredient and unit and quantity:
+    #         try:
+    #             quantity = float(quantity)  # Ensure the quantity is a number
+    #             sentence = str(quantity) + " " + unit + " " + ingredient
+    #             result = self.processor.convertSingleIngredient(sentence)
+    #             if sentence == result:
+    #                 self.conversion_result.config(text="Didn't find Ingredient!")
+    #             else:
+    #                 self.conversion_result.config(text=result)
+    #         except ValueError:
+    #             self.conversion_result.config(text="Please enter a valid quantity.")
+    #     else:
+    #         self.conversion_result.config(text="Please fill in all fields.")
+
+
+    #For 2 boxes
+    def setup_conversion_tab(self):
+        # Title
+        title = Label(self.conversion_tab, text='Convert Ingredient to Grams',
+                      font=(BOLD_FONT, 36), bg="sky blue")
+        title.pack(pady=20)
+
+        # Center container
+        center_frame = Frame(self.conversion_tab, bg="sky blue")
+        center_frame.pack(expand=True)
+
+        # Left frame for the first set of fields
+        left_frame = Frame(center_frame, bg="sky blue")
+        left_frame.grid(row=0, column=0, padx=20)
+
+        # Right frame for the second set of fields
+        right_frame = Frame(center_frame, bg="sky blue")
+        right_frame.grid(row=0, column=1, padx=20)
+
+        # First Set of Fields (Left Frame)
+        ingredient_label1 = Label(left_frame, text="Select Ingredient (1):",
+                                  font=(FONT, 18), bg="sky blue")
+        ingredient_label1.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+
+        self.ingredient_var1 = StringVar()
+        ingredient_dropdown1 = ttk.Combobox(left_frame, textvariable=self.ingredient_var1,
+                                            values=self.processor.getAllIngredients(), font=(FONT, 16))
+        ingredient_dropdown1.grid(row=1, column=0, padx=10, pady=10)
+
+        quantity_label1 = Label(left_frame, text="Enter Quantity (1):",
+                                font=(FONT, 18), bg="sky blue")
+        quantity_label1.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+
+        self.quantity_var1 = StringVar()
+        quantity_entry1 = Entry(left_frame, textvariable=self.quantity_var1,
+                                font=(FONT, 16), width=10)
+        quantity_entry1.grid(row=3, column=0, padx=10, pady=10)
+
+        unit_label1 = Label(left_frame, text="Select Unit (1):",
+                            font=(FONT, 18), bg="sky blue")
+        unit_label1.grid(row=4, column=0, padx=10, pady=10, sticky="w")
+
+        self.unit_var1 = StringVar()
+        unit_dropdown1 = ttk.Combobox(left_frame, textvariable=self.unit_var1,
+                                      values=["cups", "tablespoon", "teaspoon", "ounces"], font=(FONT, 16))
+        unit_dropdown1.grid(row=5, column=0, padx=10, pady=10)
+
+        # Second Set of Fields (Right Frame)
+        ingredient_label2 = Label(right_frame, text="Select Ingredient (2):",
+                                  font=(FONT, 18), bg="sky blue")
+        ingredient_label2.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+
+        self.ingredient_var2 = StringVar()
+        ingredient_dropdown2 = ttk.Combobox(right_frame, textvariable=self.ingredient_var2,
+                                            values=self.processor.getAllIngredients(), font=(FONT, 16))
+        ingredient_dropdown2.grid(row=1, column=0, padx=10, pady=10)
+
+        quantity_label2 = Label(right_frame, text="Enter Quantity (2):",
+                                font=(FONT, 18), bg="sky blue")
+        quantity_label2.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+
+        self.quantity_var2 = StringVar()
+        quantity_entry2 = Entry(right_frame, textvariable=self.quantity_var2,
+                                font=(FONT, 16), width=10)
+        quantity_entry2.grid(row=3, column=0, padx=10, pady=10)
+
+        unit_label2 = Label(right_frame, text="Select Unit (2):",
+                            font=(FONT, 18), bg="sky blue")
+        unit_label2.grid(row=4, column=0, padx=10, pady=10, sticky="w")
+
+        self.unit_var2 = StringVar()
+        unit_dropdown2 = ttk.Combobox(right_frame, textvariable=self.unit_var2,
+                                      values=["cups", "tablespoon", "teaspoon", "ounces"], font=(FONT, 16))
+        unit_dropdown2.grid(row=5, column=0, padx=10, pady=10)
+
+        # Convert Button
+        convert_btn = Button(center_frame, width=15, text='Convert',
+                             font=(BOLD_FONT, 18),
+                             command=self.display_conversion, bg="#6aa7cf", fg="white")
+        convert_btn.grid(row=1, column=0, columnspan=2, pady=20)
+
+        # Result Displays (Below the Input Fields)
+        self.conversion_result1 = Label(center_frame, text="",
+                                        font=(FONT, 18), bg="sky blue", fg="black")
+        self.conversion_result1.grid(row=2, column=0, columnspan=2, pady=10)
+
+        self.conversion_result2 = Label(center_frame, text="",
+                                        font=(FONT, 18), bg="sky blue", fg="black")
+        self.conversion_result2.grid(row=3, column=0, columnspan=2, pady=10)
+
+        self.total_conversion_result = Label(center_frame, text="",
+                                             font=(FONT, 18), bg="sky blue", fg="dark green")
+        self.total_conversion_result.grid(row=4, column=0, columnspan=2, pady=10)
+
+    def display_conversion(self):
+        # Get values from the first set of fields
+        ingredient1 = self.ingredient_var1.get()
+        unit1 = self.unit_var1.get()
+        quantity1 = self.quantity_var1.get()
+
+        # Get values from the second set of fields
+        ingredient2 = self.ingredient_var2.get()
+        unit2 = self.unit_var2.get()
+        quantity2 = self.quantity_var2.get()
+
+        # Initialize results
+        total_grams = 0
+        result_text1 = result_text2 = ""
+
+        # Process the first conversion
+        if ingredient1 and unit1 and quantity1:
+            try:
+                sentence1 = f"{quantity1} {unit1} {ingredient1}"
+                result1 = self.processor.convertSingleIngredient(sentence1)
+                if sentence1 == result1:
+                    result_text1 = "Didn't find Ingredient (1)!"
+                else:
+                    grams1 = float(result1.split()[0])  # Assuming the result starts with a numeric value
+                    total_grams += grams1
+                    result_text1 = f"{sentence1} = {grams1} grams"
+            except ValueError:
+                result_text1 = "Invalid quantity (1)."
+
+        # Process the second conversion
+        if ingredient2 and unit2 and quantity2:
+            try:
+                sentence2 = f"{quantity2} {unit2} {ingredient2}"
+                result2 = self.processor.convertSingleIngredient(sentence2)
+                if sentence2 == result2:
+                    result_text2 = "Didn't find Ingredient (2)!"
+                else:
+                    grams2 = float(result2.split()[0])  # Assuming the result starts with a numeric value
+                    total_grams += grams2
+                    result_text2 = f"{sentence2} = {grams2} grams"
+            except ValueError:
+                result_text2 = "Invalid quantity (2)."
+
+        # Update results
+        self.conversion_result1.config(text=result_text1)
+        self.conversion_result2.config(text=result_text2)
+
+        # Display the total if both ingredients are the same
+        if ingredient1 == ingredient2 and total_grams > 0:
+            self.total_conversion_result.config(text=f"Total: {total_grams} grams")
+        else:
+            self.total_conversion_result.config(text="")
+
+
 
     def setup_url_tab(self):
         # Title
@@ -515,4 +740,7 @@ class RecipeDisplayWindow:
         for item in result.instructions:
             DOTORNOT = '' if item == '\n' else '•'
             self.txt_instructions.insert(END, f"{DOTORNOT} {item}\n\n")
+
+
+
 

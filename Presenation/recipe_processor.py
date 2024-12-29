@@ -9,6 +9,7 @@ from Business.RecipeObject import RecipeObject
 from Business.convertToText import readPictureFromWeb
 from Business.seleniumConvertToText import getIngredientsFromWebScraping
 from Business.GoogleSearch import search_dessert_google
+from DAL.ConversionTable import getAllIngredients
 
 
 @dataclass
@@ -148,3 +149,12 @@ class RecipeProcessor:
             converted.append(curr)
 
         return ingredients, converted
+
+    def convertSingleIngredient(self, sentence):
+
+        return convertToGrams(sentence)
+
+    def getAllIngredients(self):
+        ingredients = list(getAllIngredients())
+        splitIng = [curr.split(";") for curr in ingredients]
+        return [x for xs in splitIng for x in xs]
