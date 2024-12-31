@@ -1,5 +1,6 @@
 import csv
 import os
+import sys
 
 ingredientsDict = dict()
 TSP = 0
@@ -41,7 +42,8 @@ def getIngredientKeyRepresentation(ingredient):
 
 
 def uploadFromCSV():
-    dirPath = os.path.dirname(os.path.realpath(__file__))
+    #dirPath = os.path.dirname(os.path.realpath(__file__))
+    dirPath = os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.dirname(os.path.realpath(__file__))
     tablePath = dirPath + '/table.csv'
     with open(tablePath, 'r') as file:
         csvreader = list(csv.reader(file, delimiter=','))

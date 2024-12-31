@@ -1,5 +1,8 @@
+import os
 import re
+import sys
 
+from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.options import Options
@@ -43,11 +46,22 @@ def getIngredientsFromWebScraping(url):
         return None
 
 
+def getDriver():
+    driver_path = os.path.join(
+        os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.dirname(__file__),
+        'chromedriver.exe')
+    service = Service(executable_path=driver_path)
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    return driver
+
+
+
 def getFromFoodNetwork(url):
     # Set up Selenium with headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = getDriver()
 
     driver.get(url)
     # Wait until the ingredients section is loaded
@@ -94,9 +108,11 @@ def getFromFoodNetwork(url):
 
 def getFromSeriousEats(url):
     # Set up Selenium with headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+
+    # chrome_options = Options()
+    # chrome_options.add_argument("--headless")  # Run in headless mode
+
+    driver = getDriver()
     driver.get(url)
 
     # Wait until the specific div with ingredients is loaded
@@ -155,9 +171,8 @@ def getFromSeriousEats(url):
 
 def getFromLoveAndLemons(url):
     # Set up Selenium with headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+
+    driver = getDriver()
 
     try:
         driver.get(url)
@@ -209,9 +224,7 @@ def getFromLoveAndLemons(url):
 
 def getFromPreppyKitchen(url):
     # Set up Selenium with headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = getDriver()
 
     try:
         driver.get(url)
@@ -272,9 +285,7 @@ def getFromPreppyKitchen(url):
 
 def getFromKingArthurBaking(url):
     # Set up Selenium with headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = getDriver()
 
     try:
         driver.get(url)
@@ -332,9 +343,7 @@ def getFromKingArthurBaking(url):
 
 def getFromSallysBakingAddiction(url):
     # Set up Selenium with headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = getDriver()
 
     try:
         driver.get(url)
@@ -397,12 +406,17 @@ def getFromSallysBakingAddiction(url):
 
 def getFromNYT(url):
     # Set up ChromeDriver options
+
+    driver_path = os.path.join(
+        os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.dirname(__file__),
+        'chromedriver.exe')
+    service = Service(executable_path=driver_path)
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Run browser in headless mode
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
 
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
         # Load the webpage
@@ -455,9 +469,7 @@ def getFromNYT(url):
 
 def getFromGoodFood(url):
     # Set up Selenium with headless mode
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = getDriver()
 
     all_ingredients = []
     instructions = []
@@ -486,7 +498,7 @@ def getFromGoodFood(url):
                     # Get the heading text (e.g., "For the cake")
                     heading = section.find('h3', class_='ingredients-list__heading')
                     heading_text = heading.get_text(strip=True) if heading else "No heading"
-                    if heading_text is not "No heading":
+                    if heading_text != "No heading":
                         all_ingredients.append(heading_text)
 
                     # Locate the <ul> inside the section

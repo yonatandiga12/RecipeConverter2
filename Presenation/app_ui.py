@@ -626,6 +626,7 @@ class RecipeConverterUI:
             steps = SUPPORTED_SITES
             for step in steps:
                 dynamic_label.config(text=f"Searching in {step}")
+                dynamic_label.config(text=f"It may take a minute")
                 progress_popup.update_idletasks()
                 #When doing sleep it freezes the progressbar but shows all the sites
                 #time.sleep(9)  # Simulate a delay for each step

@@ -1,3 +1,6 @@
+import os
+import sys
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -13,9 +16,17 @@ def search_dessert_google(dessert):
     Searches Google for the dessert query, extracts recipe title, URL, rating,
     and the number of people who rated it, only within the current 'MjjYud' div.
     """
+    # chrome_options = Options()
+    # chrome_options.add_argument("--headless")  # Uncomment for headless mode
+    # service = Service()  # Automatically detects ChromeDriver
+
+    driver_path = os.path.join(
+        os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.dirname(__file__),
+        'chromedriver.exe')
+    service = Service(executable_path=driver_path)
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Uncomment for headless mode
-    service = Service()  # Automatically detects ChromeDriver
+    chrome_options.add_argument("--headless")
+
     RECIPES_COUNTER = 5
     results = []
     driver = None
@@ -50,7 +61,7 @@ def search_dessert_google(dessert):
                 reviews_tag = recipe_block.find('span', class_='RDApEe YrbPuc')  # Reviews
                 reviews_count = reviews_tag.get_text() if reviews_tag else 0
 
-                if reviews_count is not 0:
+                if reviews_count != 0:
                     reviews_count = int(''.join([char for char in reviews_count if char.isalnum()]))
                 if rating is not None:
                     rating = float(rating)
