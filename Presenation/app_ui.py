@@ -10,8 +10,8 @@ from Business.RecipeObject import RecipeObject
 from Business.seleniumConvertToText import SUPPORTED_SITES
 from Presenation.recipe_processor import RecipeProcessor
 
-FONT = 'Courier'
-BOLD_FONT = 'Courier bold'
+FONT = 'Century Schoolbook L'
+BOLD_FONT = 'Century Schoolbook L bold'
 
 class RecipeConverterUI:
 
@@ -732,11 +732,11 @@ class RecipeDisplayWindow:
         # Update with new content
         for item in result.original_ingredients:
             DOTORNOT = '' if item == '\n' else '•'
-            self.txt_original.insert(END, f"{DOTORNOT} {item}\n")
+            self.txt_original.insert(END, f"{DOTORNOT} {item}\n\n")
 
         for item in result.converted_ingredients:
             DOTORNOT = '' if item == '\n' else '•'
-            self.txt_converted.insert(END, f"{DOTORNOT} {item}\n")
+            self.txt_converted.insert(END, f"{DOTORNOT} {item}\n\n")
 
         for item in result.instructions:
             DOTORNOT = '' if item == '\n' else '•'

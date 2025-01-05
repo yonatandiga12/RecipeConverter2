@@ -62,8 +62,8 @@ from cx_Freeze import setup, Executable
 # Handle platform-specific settings
 base = None
 if sys.platform == "win32":
-    base = "Win32GUI"  # Use this for GUI applications
-    #base = None
+    #base = "Win32GUI"  # Use this for GUI applications
+    base = None
 
 # Set SSL certificate path
 os.environ["SSL_CERT_FILE"] = os.path.join(os.getcwd(), "cacert.pem")
