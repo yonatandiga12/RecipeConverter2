@@ -164,7 +164,7 @@ class RecipeConverterUI:
         right_frame.grid(row=0, column=1, padx=20)
 
         # First Set of Fields (Left Frame)
-        ingredient_label1 = Label(left_frame, text="Select Ingredient (1):",
+        ingredient_label1 = Label(left_frame, text="Select First Ingredient:",
                                   font=(FONT, 18), bg="sky blue")
         ingredient_label1.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
@@ -173,7 +173,7 @@ class RecipeConverterUI:
                                             values=self.processor.getAllIngredients(), font=(FONT, 16))
         ingredient_dropdown1.grid(row=1, column=0, padx=10, pady=10)
 
-        quantity_label1 = Label(left_frame, text="Enter Quantity (1):",
+        quantity_label1 = Label(left_frame, text="Enter Quantity:",
                                 font=(FONT, 18), bg="sky blue")
         quantity_label1.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
@@ -182,7 +182,7 @@ class RecipeConverterUI:
                                 font=(FONT, 16), width=10)
         quantity_entry1.grid(row=3, column=0, padx=10, pady=10)
 
-        unit_label1 = Label(left_frame, text="Select Unit (1):",
+        unit_label1 = Label(left_frame, text="Select Unit:",
                             font=(FONT, 18), bg="sky blue")
         unit_label1.grid(row=4, column=0, padx=10, pady=10, sticky="w")
 
@@ -192,7 +192,7 @@ class RecipeConverterUI:
         unit_dropdown1.grid(row=5, column=0, padx=10, pady=10)
 
         # Second Set of Fields (Right Frame)
-        ingredient_label2 = Label(right_frame, text="Select Ingredient (2):",
+        ingredient_label2 = Label(right_frame, text="Select Second Ingredient:",
                                   font=(FONT, 18), bg="sky blue")
         ingredient_label2.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
@@ -201,7 +201,7 @@ class RecipeConverterUI:
                                             values=self.processor.getAllIngredients(), font=(FONT, 16))
         ingredient_dropdown2.grid(row=1, column=0, padx=10, pady=10)
 
-        quantity_label2 = Label(right_frame, text="Enter Quantity (2):",
+        quantity_label2 = Label(right_frame, text="Enter Quantity:",
                                 font=(FONT, 18), bg="sky blue")
         quantity_label2.grid(row=2, column=0, padx=10, pady=10, sticky="w")
 
@@ -210,7 +210,7 @@ class RecipeConverterUI:
                                 font=(FONT, 16), width=10)
         quantity_entry2.grid(row=3, column=0, padx=10, pady=10)
 
-        unit_label2 = Label(right_frame, text="Select Unit (2):",
+        unit_label2 = Label(right_frame, text="Select Unit:",
                             font=(FONT, 18), bg="sky blue")
         unit_label2.grid(row=4, column=0, padx=10, pady=10, sticky="w")
 

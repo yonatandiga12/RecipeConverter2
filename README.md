@@ -13,36 +13,54 @@ Now I can do it automaticlly!!
 
 
 ### What you need to run this program:
+- Selenium and BeautifulSoup installed, for the online search.
 - Tesseract installed in computer and pytesseract imported to python (decodes the photo to string)
 - csv2 imprted to python - used to read an img. 
 
 
 ### How to use?
 - Run the program.
-- Hompage should pop up: 
+- Homepage should pop up: 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/mainPage.jpg" width="350" title="Homepage">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_homepage.jpg" width="350" title="Homepage">
 </p>
 
-#### Now you can choose 2 options: 
-#### Open an image or Give a link to a website containing the recipe.
+#### Now you can choose 4 options: 
+#### Search online, Convert URL, Convert from image, Convert Ingredients 
 
-Select an image from your local files:
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/select_image.jpg" width="500" title="Select image">
-</p>
-
-Or paste a URL link:
+* Paste a URL link:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/urlLink.jpg" width="500" title="Select image">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_urlConvertor.jpg" width="500" title="Select image">
 </p>
 
 
-- And finally the converted and original ingredients 😄 : 
+
+* Search for a name of a dish in "Search" Tab and it will show you the top recipes from several sites
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/converted.jpg" width="750" title="Converted">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_searching.jpg" width="500" title="Select image">
+</p>
+
+Now you can choose one recipe and convert it to grams or go to the original site.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_searchResults.jpg" width="500" title="Select image">
+</p>
+
+* Select an image from your local files
+
+
+* Convert two ingredients manually
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_convert_ingredients.jpg" width="500" title="Select image">
+</p>
+
+
+
+* And view the converted and original ingredients 😄 : 
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_recipeFormat.jpg" width="750" title="Converted">
 </p>
