@@ -16,7 +16,7 @@ Now I can do it automaticlly!!
 - Selenium 4.11.2 and BeautifulSoup 4.12.0 installed, for the online search.
 - chromedriver  131.0.6778.204
 - Tesseract installed in computer and pytesseract imported to python (decodes the photo to string)
-  View reqirments.txt for more info
+- View reqirments.txt for more info
 
 
 ### How to use?
