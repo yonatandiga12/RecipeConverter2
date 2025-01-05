@@ -23,7 +23,7 @@ Now I can do it automaticlly!!
 - Homepage should pop up: 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_homepage.jpg" width="350" title="Homepage">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_homepage.png" width="350" title="Homepage">
 </p>
 
 #### Now you can choose 4 options: 
@@ -32,7 +32,7 @@ Now I can do it automaticlly!!
 * Paste a URL link:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_urlConvertor.jpg" width="500" title="Select image">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_urlConvertor.png" width="500" title="Select image">
 </p>
 
 
@@ -40,13 +40,13 @@ Now I can do it automaticlly!!
 * Search for a name of a dish in "Search" Tab and it will show you the top recipes from several sites
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_searching.jpg" width="500" title="Select image">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_searching.png" width="500" title="Select image">
 </p>
 
 Now you can choose one recipe and convert it to grams or go to the original site.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_searchResults.jpg" width="500" title="Select image">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_searchResults.png" width="500" title="Select image">
 </p>
 
 * Select an image from your local files
@@ -54,7 +54,7 @@ Now you can choose one recipe and convert it to grams or go to the original site
 
 * Convert two ingredients manually
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_convert_ingredients.jpg" width="500" title="Select image">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_convert_ingredients.png" width="500" title="Select image">
 </p>
 
 
@@ -62,5 +62,5 @@ Now you can choose one recipe and convert it to grams or go to the original site
 * And view the converted and original ingredients 😄 : 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_recipeFormat.jpg" width="750" title="Converted">
+  <img src="https://raw.githubusercontent.com/yonatandiga12/RecipeConverter2/master/pictures/picturesForREADME/1_recipeFormat.png" width="750" title="Converted">
 </p>
