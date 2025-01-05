@@ -1,6 +1,8 @@
 # RecipeConvertor
 Search recipes online, viewing them neatly from several websites and have the ability to transform the ingredients to the metric system (viewing them in grams).
-Application can be downloaded here: https://drive.google.com/file/d/13yNKyxs27ZOVA002MwBqD4JK5zyjqV9J/view?usp=sharing
+
+Application can be downloaded here: https://drive.google.com/file/d/13yNKyxs27ZOVA002MwBqD4JK5zyjqV9J/view?usp=sharing  <br>
+Unzip the folder and run RecipeConverfter.exe
 
 ### Why I did this? 
 I Love to Bake! :cake:.
