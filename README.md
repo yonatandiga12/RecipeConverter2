@@ -1,6 +1,6 @@
 # RecipeConvertor
-Transform an image of ingredients to ingredients in the metric system. (In grams)
-
+Search recipes online, viewing them neatly from several websites and have the ability to transform the ingredients to the metric system (viewing them in grams).
+Application can be downloaded here: https://drive.google.com/file/d/1Hcx2ikkhrcnzIpM1q4w5Lh1kcmySSCTI/view?usp=sharing
 
 ### Why I did this? 
 I Love to Bake! :cake:.
@@ -13,9 +13,10 @@ Now I can do it automaticlly!!
 
 
 ### What you need to run this program:
-- Selenium and BeautifulSoup installed, for the online search.
+- Selenium 4.11.2 and BeautifulSoup 4.12.0 installed, for the online search.
+- chromedriver  131.0.6778.204
 - Tesseract installed in computer and pytesseract imported to python (decodes the photo to string)
-- csv2 imprted to python - used to read an img. 
+  View reqirments.txt for more info
 
 
 ### How to use?
